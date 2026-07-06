@@ -1,0 +1,68 @@
+import { Link } from "react-router-dom";
+import { ShoppingCart, Heart, User } from "lucide-react";
+import { useSelector } from "react-redux";
+
+const Navbar = () => {
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
+  return (
+    <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="text-xl font-bold text-gray-800">
+          MyStore
+        </Link>
+
+        {/* Nav Links */}
+        <div className="flex items-center gap-6">
+          <Link
+            to="/"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            to="/shop"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            Shop
+          </Link>
+        </div>
+
+        {/* Icons */}
+        <div className="flex items-center gap-4">
+          {/* Wishlist */}
+          <Link
+            to="/wishlist"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <Heart size={22} />
+          </Link>
+
+          {/* Cart */}
+          <Link
+            to="/cart"
+            className="relative text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <ShoppingCart size={22} />
+            {totalQuantity > 0 && (
+              <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {totalQuantity}
+              </span>
+            )}
+          </Link>
+
+          {/* User */}
+          <Link
+            to="/login"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <User size={22} />
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

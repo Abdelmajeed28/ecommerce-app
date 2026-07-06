@@ -1,13 +1,44 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import MainLayout from "./Layouts/MainLayout";
 
 function App() {
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <h1 className="text-3xl font-bold text-blue-600">
-          E-commerce Setup ✅
-        </h1>
-      </div>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route
+            index
+            element={
+              <div className="p-8 text-center text-2xl">Home Page 🏠</div>
+            }
+          />
+          <Route
+            path="shop"
+            element={
+              <div className="p-8 text-center text-2xl">Shop Page 🛍️</div>
+            }
+          />
+          <Route
+            path="cart"
+            element={
+              <div className="p-8 text-center text-2xl">Cart Page 🛒</div>
+            }
+          />
+          <Route
+            path="wishlist"
+            element={
+              <div className="p-8 text-center text-2xl">Wishlist Page ❤️</div>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <div className="p-8 text-center text-2xl">Login Page 🔐</div>
+            }
+          />
+        </Route>
+      </Routes>
     </>
   );
 }
