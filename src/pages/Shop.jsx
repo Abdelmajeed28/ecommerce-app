@@ -25,7 +25,6 @@ function Shop() {
             key={product.id}
             className="group flex flex-col justify-between w-full max-w-[320px] mx-auto bg-transparent cursor-pointer"
           >
-            /* حاوية الصورة مع المفضلة وزر السلة */
             <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden bg-[#F3F4F6] transition-all duration-300">
               <img
                 src={product.image}
