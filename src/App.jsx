@@ -1,18 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./Layouts/MainLayout";
+import Shop from "./pages/Shop";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route
-            index
-            element={
-              <div className="p-8 text-center text-2xl">Home Page 🏠</div>
-            }
-          />
+          <Route index element={<Shop />} />
           <Route
             path="shop"
             element={
