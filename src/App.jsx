@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./Layouts/MainLayout";
 import Shop from "./pages/Shop";
-import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
   return (
@@ -13,8 +12,7 @@ function App() {
           <Route
             path="shop"
             element={
-              // <div className="p-8 text-center text-2xl">Shop Page 🛍️</div>
-              <SearchBar />
+              <div className="p-8 text-center text-2xl">Shop Page 🛍️</div>
             }
           />
           <Route

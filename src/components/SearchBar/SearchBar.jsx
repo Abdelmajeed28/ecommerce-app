@@ -1,6 +1,6 @@
 function SearchBar({ searchTerm, onSearch }) {
   return (
-    <div className=" border">
+    <div>
       <input
         type="text"
         value={searchTerm}

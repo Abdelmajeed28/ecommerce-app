@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ShoppingCart, Heart, User } from "lucide-react";
 import { useSelector } from "react-redux";
 
@@ -9,38 +9,46 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold text-gray-800">
+        <NavLink to="/" className="text-xl font-bold text-gray-800">
           MyStore
-        </Link>
+        </NavLink>
 
         {/* Nav Links */}
         <div className="flex items-center gap-6">
-          <Link
+          <NavLink
             to="/"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-gray-600 hover:text-gray-900 transition-colors text-lg "
+            style={({ isActive }) => ({
+              color: isActive ? "blue" : "black",
+              fontWeight: isActive ? "bold" : "normal",
+            })}
           >
             Home
-          </Link>
-          <Link
+          </NavLink>
+          <NavLink
             to="/shop"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-gray-600 hover:text-gray-900 transition-colors text-lg "
+            style={({ isActive }) => ({
+              color: isActive ? "blue" : "black",
+              fontWeight: isActive ? "bold" : "normal",
+            })}
           >
             Shop
-          </Link>
+          </NavLink>
         </div>
 
         {/* Icons */}
         <div className="flex items-center gap-4">
           {/* Wishlist */}
-          <Link
+          <NavLink
             to="/wishlist"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
             <Heart size={22} />
-          </Link>
+          </NavLink>
 
           {/* Cart */}
-          <Link
+          <NavLink
             to="/cart"
             className="relative text-gray-600 hover:text-gray-900 transition-colors"
           >
@@ -50,15 +58,15 @@ const Navbar = () => {
                 {totalQuantity}
               </span>
             )}
-          </Link>
+          </NavLink>
 
           {/* User */}
-          <Link
+          <NavLink
             to="/login"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
             <User size={22} />
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>
