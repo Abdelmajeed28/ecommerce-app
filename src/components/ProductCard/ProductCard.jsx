@@ -3,7 +3,7 @@ import { Heart, Star } from "lucide-react";
 function ProductCard({ product }) {
   const roundedRating = Math.round(product.rating || 4);
   return (
-    <div className="group flex flex-col  w-full max-w-[320px] mx-auto bg-transparent cursor-pointer">
+    <div className="group flex flex-col  w-full max-w-[320px] mx-auto bg-transparent cursor-pointer hover:bg-gray-200 transition-transform duration-700 rounded-3xl">
       <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden bg-[#F3F4F6] transition-all duration-300">
         <img
           src={product.image}
