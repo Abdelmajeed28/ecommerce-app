@@ -1,9 +1,21 @@
 import { Heart, Star } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../features/cart/cartSlice";
 
 function ProductCard({ product }) {
   const roundedRating = Math.round(product.rating || 4);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleAddToCard = (e) => {
+    e.stopPropagation();
+    dispatch(addToCart(product));
+  };
   return (
-    <div className="group flex flex-col  w-full max-w-[320px] mx-auto bg-transparent cursor-pointer hover:bg-gray-200 transition-transform duration-700 rounded-3xl">
+    <div
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="group flex flex-col  w-full max-w-[320px] mx-auto bg-transparent cursor-pointer hover:bg-gray-200 transition-transform duration-700 rounded-3xl"
+    >
       <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden bg-[#F3F4F6] transition-all duration-300">
         <img
           src={product.image}
@@ -18,7 +30,10 @@ function ProductCard({ product }) {
           <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" />
         </button>
         {/* Add to Cart */}
-        <button className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[90%] py-4 bg-[#2563EB] hover:bg-blue-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-blue-500/30 transition-all active:scale-95 text-center">
+        <button
+          onClick={handleAddToCard}
+          className="absolute bottom-4 left-1/2 cursor-pointer -translate-x-1/2 w-[90%] py-4 bg-[#2563EB] hover:bg-blue-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-blue-500/30 transition-all active:scale-95 text-center"
+        >
           Add to Cart
         </button>
       </div>

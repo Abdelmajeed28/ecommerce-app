@@ -15,13 +15,19 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id,
       );
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += action.payload.quantity || 1;
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({
+          ...action.payload,
+          quantity: action.payload.quantity || 1,
+        });
       }
-      state.totalQuantity += 1;
+      state.totalQuantity += action.payload.quantity || 1;
       state.totalPrice = parseFloat(
-        (state.totalPrice + action.payload.price).toFixed(2),
+        (
+          state.totalPrice +
+          action.payload.price * (action.payload.quantity || 1)
+        ).toFixed(2),
       );
     },
     removeFromCart: (state, action) => {
