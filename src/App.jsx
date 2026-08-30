@@ -3,6 +3,7 @@ import "./App.css";
 import MainLayout from "./Layouts/MainLayout";
 import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -17,12 +18,7 @@ function App() {
               <div className="p-8 text-center text-2xl">Shop Page 🛍️</div>
             }
           />
-          <Route
-            path="cart"
-            element={
-              <div className="p-8 text-center text-2xl">Cart Page 🛒</div>
-            }
-          />
+          <Route path="cart" element={<Cart />} />
           <Route
             path="wishlist"
             element={
