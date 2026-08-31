@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
 import { useGetProductByIdQuery } from "../features/products/productsApiSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
+import { toggleWishlist } from "../features/wishlist/wishlistSlice";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -12,6 +13,9 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
+  const favoriteItems = useSelector(
+    (state) => state.wishlist.wishlistItems || [],
+  );
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -25,9 +29,13 @@ function ProductDetails() {
         Something went Wrong
       </h1>
     );
+  const isFavorite = favoriteItems.some((item) => item.id === product?.id);
 
   const roundedRating = Math.round(product.rating || 4);
 
+  const handleToggleFavorite = () => {
+    dispatch(toggleWishlist(product));
+  };
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
       <div className="flex flex-col md:flex-row gap-12">
@@ -40,11 +48,20 @@ function ProductDetails() {
               alt={product.title}
               className="w-full h-full object-cover object-center transition-all duration-500"
             />
+            {/* fav btn */}
             <button
+              onClick={handleToggleFavorite}
               className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
               aria-label="Add to wishlist"
             >
-              <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" />
+              {/* <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
+              <Heart
+                className={`w-5 h-5 transition-colors duration-300 ${
+                  isFavorite
+                    ? "text-red-500 fill-red-500"
+                    : "text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500"
+                }`}
+              />
             </button>
           </div>
 
@@ -152,8 +169,22 @@ function ProductDetails() {
               <ShoppingCart size={20} />
               Add to Cart
             </button>
-            <button className="w-14 h-14 flex items-center justify-center border border-gray-200 rounded-2xl hover:border-red-400 transition-all active:scale-95 group/btn">
-              <Heart className="w-5 h-5 text-slate-400 cursor-pointer group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" />
+            <button
+              onClick={handleToggleFavorite}
+              className={`w-14 h-14 flex items-center justify-center border rounded-2xl transition-all active:scale-95 group/btn ${
+                isFavorite
+                  ? "border-red-500 bg-red-50"
+                  : "border-gray-200 hover:border-red-400"
+              }`}
+            >
+              {/* <Heart className="w-5 h-5 text-slate-400 cursor-pointer group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
+              <Heart
+                className={`w-5 h-5 cursor-pointer transition-colors duration-300 ${
+                  isFavorite
+                    ? "text-red-500 fill-red-500"
+                    : "text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500"
+                }`}
+              />
             </button>
           </div>
         </div>

@@ -1,15 +1,30 @@
 import { Heart, Star } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../features/cart/cartSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../features/wishlist/wishlistSlice";
 
 function ProductCard({ product }) {
   const roundedRating = Math.round(product.rating || 4);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isWishlisted = useSelector((state) =>
+    state.wishlist.wishlistItems.some((item) => item.id === product.id),
+  );
   const handleAddToCard = (e) => {
     e.stopPropagation();
     dispatch(addToCart(product));
+  };
+  const handleToggleWishlist = (e) => {
+    e.stopPropagation(); // منع الانتقال لصفحة التفاصيل عند الضغط على زر المفضلة
+    if (isWishlisted) {
+      dispatch(removeFromWishlist(product.id));
+    } else {
+      dispatch(addToWishlist(product));
+    }
   };
   return (
     <div
@@ -24,10 +39,18 @@ function ProductCard({ product }) {
         />
         {/* fav icon */}
         <button
+          onClick={handleToggleWishlist}
           className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
           aria-label="Add to wishlist"
         >
-          <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" />
+          {/* <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
+          <Heart
+            className={`w-5 h-5 transition-colors duration-300 ${
+              isWishlisted
+                ? "text-red-500 fill-red-500"
+                : "text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500"
+            }`}
+          />
         </button>
         {/* Add to Cart */}
         <button
