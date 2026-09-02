@@ -79,9 +79,12 @@ function Cart() {
             </span>
           </div>
 
-          <button className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95">
+          <Link
+            to="/checkout"
+            className="block mx-auto w-[80%] py-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95"
+          >
             Checkout
-          </button>
+          </Link>
 
           <Link
             to="/"

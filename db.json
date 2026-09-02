@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Wireless Bluetooth Headphones",
       "price": 49.99,
       "category": "electronics",
@@ -16,7 +16,7 @@
       "stock": 25
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Smart Watch Series 5",
       "price": 129.99,
       "category": "electronics",
@@ -31,7 +31,7 @@
       "stock": 18
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Portable Bluetooth Speaker",
       "price": 35.5,
       "category": "electronics",
@@ -46,7 +46,7 @@
       "stock": 40
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Men's Running Shoes",
       "price": 79.99,
       "category": "fashion",
@@ -61,7 +61,7 @@
       "stock": 32
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Women's Denim Jacket",
       "price": 59.99,
       "category": "fashion",
@@ -76,9 +76,9 @@
       "stock": 22
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Leather Crossbody Bag",
-      "price": 89.0,
+      "price": 89,
       "category": "fashion",
       "image": "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=500",
       "images": [
@@ -91,7 +91,7 @@
       "stock": 15
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Stainless Steel Cookware Set",
       "price": 149.99,
       "category": "home",
@@ -106,7 +106,7 @@
       "stock": 10
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Aromatherapy Diffuser",
       "price": 24.99,
       "category": "home",
@@ -117,11 +117,11 @@
         "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=500"
       ],
       "description": "Ultrasonic essential oil diffuser with LED mood lighting.",
-      "rating": 4.0,
+      "rating": 4,
       "stock": 50
     },
     {
-      "id": 9,
+      "id": "9",
       "title": "Memory Foam Pillow",
       "price": 19.99,
       "category": "home",
@@ -136,7 +136,7 @@
       "stock": 60
     },
     {
-      "id": 10,
+      "id": "10",
       "title": "Yoga Mat Premium",
       "price": 29.99,
       "category": "sports",
@@ -151,7 +151,7 @@
       "stock": 35
     },
     {
-      "id": 11,
+      "id": "11",
       "title": "Adjustable Dumbbell Set",
       "price": 119.99,
       "category": "sports",
@@ -166,7 +166,7 @@
       "stock": 12
     },
     {
-      "id": 12,
+      "id": "12",
       "title": "Cycling Helmet",
       "price": 39.99,
       "category": "sports",
@@ -181,7 +181,7 @@
       "stock": 28
     },
     {
-      "id": 13,
+      "id": "13",
       "title": "Mechanical Gaming Keyboard",
       "price": 69.99,
       "category": "electronics",
@@ -196,7 +196,7 @@
       "stock": 20
     },
     {
-      "id": 14,
+      "id": "14",
       "title": "Ceramic Plant Pot Set",
       "price": 22.5,
       "category": "home",
@@ -211,7 +211,7 @@
       "stock": 45
     },
     {
-      "id": 15,
+      "id": "15",
       "title": "Men's Classic Sunglasses",
       "price": 34.99,
       "category": "fashion",
@@ -226,13 +226,78 @@
       "stock": 38
     }
   ],
-  "orders": [],
+  "orders": [
+    {
+      "items": [
+        {
+          "id": "3",
+          "title": "Portable Bluetooth Speaker",
+          "price": 35.5,
+          "category": "electronics",
+          "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500",
+          "images": [
+            "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500",
+            "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500",
+            "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500"
+          ],
+          "description": "Waterproof portable speaker with deep bass and 12-hour playtime.",
+          "rating": 4.1,
+          "stock": 40,
+          "quantity": 1
+        },
+        {
+          "id": "2",
+          "title": "Smart Watch Series 5",
+          "price": 129.99,
+          "category": "electronics",
+          "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+          "images": [
+            "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
+            "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=500",
+            "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500"
+          ],
+          "description": "Fitness tracking smartwatch with heart rate monitor and GPS.",
+          "rating": 4.3,
+          "stock": 18,
+          "quantity": 1
+        },
+        {
+          "id": "1",
+          "title": "Wireless Bluetooth Headphones",
+          "price": 49.99,
+          "category": "electronics",
+          "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+          "images": [
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
+            "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500",
+            "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500"
+          ],
+          "description": "Over-ear wireless headphones with active noise cancellation and 30-hour battery life.",
+          "rating": 4.5,
+          "stock": 25,
+          "quantity": 1
+        }
+      ],
+      "totalPrice": 215.48,
+      "totalQuantity": 3,
+      "shippingInfo": {
+        "name": "mego",
+        "email": "mego@gmail.com",
+        "address": "qus-qena",
+        "city": "Egypt"
+      },
+      "date": "2026-09-02T20:59:46.345Z",
+      "status": "pending",
+      "id": "m7P8w-oE2Lc"
+    }
+  ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Test User",
       "email": "test@example.com",
       "password": "123456"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
