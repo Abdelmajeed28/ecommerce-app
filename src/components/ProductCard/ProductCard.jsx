@@ -29,7 +29,14 @@ function ProductCard({ product }) {
   return (
     <div
       onClick={() => navigate(`/product/${product.id}`)}
-      className="group flex flex-col  w-full max-w-[320px] mx-auto bg-transparent cursor-pointer hover:bg-gray-200 transition-transform duration-700 rounded-3xl"
+      style={{ background: "var(--bg-card)" }}
+      className="group flex flex-col  w-full max-w-[320px] mx-auto  cursor-pointer  transition-all duration-700 rounded-3xl"
+      onMouseEnter={(e) =>
+        (e.currentTarget.style.background = "var(--bg-secondary)")
+      }
+      onMouseLeave={(e) =>
+        (e.currentTarget.style.background = "var(--bg-card)")
+      }
     >
       <div className="relative aspect-4/5 w-full rounded-3xl overflow-hidden bg-[#F3F4F6] transition-all duration-300">
         <img
@@ -40,7 +47,8 @@ function ProductCard({ product }) {
         {/* fav icon */}
         <button
           onClick={handleToggleWishlist}
-          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
+          style={{ background: "var(--bg-card)" }}
+          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center  rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
           aria-label="Add to wishlist"
         >
           {/* <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
@@ -76,16 +84,25 @@ function ProductCard({ product }) {
               />
             ))}
           </div>
-          <span className="text-gray-400 text-sm font-semibold font-sans">
+          <span
+            className=" text-sm font-semibold font-sans"
+            style={{ color: "var(--text-primary)" }}
+          >
             ({product.stock * 2 - 8 || 42})
           </span>
         </div>
 
-        <h3 className="text-xl font-semibold text-[#1F2937] leading-snug line-clamp-1 font-sans">
+        <h3
+          className="text-xl font-semibold  leading-snug line-clamp-1 font-sans"
+          style={{ color: "var(--text-primary)" }}
+        >
           {product.title}
         </h3>
 
-        <p className="text-xs font-bold text-gray-400 tracking-wider uppercase mt-1.5 font-sans">
+        <p
+          className="text-xs font-bold  tracking-wider uppercase mt-1.5 font-sans"
+          style={{ color: "var(--text-primary)" }}
+        >
           {product.category} Edition
         </p>
 

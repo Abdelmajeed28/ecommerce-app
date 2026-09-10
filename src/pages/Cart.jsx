@@ -20,20 +20,28 @@ function Cart() {
   };
   if (items.length === 0) {
     return (
-      <div className="flex justify-center items-center h-screen w-full">
+      <div
+        style={{ background: "var(--bg-primary)" }}
+        className="flex justify-center items-center h-screen w-full"
+      >
         <div className="flex flex-col items-center gap-6">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 text-center">
+          <h1
+            className="text-4xl md:text-5xl font-extrabold  text-center"
+            style={{ color: "var(--text-primary)" }}
+          >
             Your cart is{" "}
-            <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              empty
-            </span>
+            {/* <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> */}
+            <span className="text-blue-600">empty</span>
           </h1>
-          <p className="text-gray-400 text-lg text-center max-w-md">
+          <p
+            style={{ color: "var(--text-secondary)" }}
+            className="text-lg text-center max-w-md"
+          >
             Looks like you haven't added anything yet.
           </p>
           <Link
             to="/"
-            className="px-8 py-3 bg-linear-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35 hover:scale-105 active:scale-95 transition-all duration-300"
+            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-2xl transition-all active:scale-95"
           >
             Go To Shop
           </Link>
@@ -42,8 +50,14 @@ function Cart() {
     );
   }
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">
+    <div
+      style={{ background: "var(--bg-primary)" }}
+      className="max-w-6xl mx-auto px-4 py-12 min-h-screen"
+    >
+      <h1
+        className="text-3xl font-bold  mb-8"
+        style={{ color: "var(--text-primary)" }}
+      >
         Your Cart
         <span className="text-blue-600 ml-2">({totalQuantity})</span>
       </h1>
@@ -62,18 +76,39 @@ function Cart() {
         </div>
 
         {/* Order Summary */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 h-fit">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">
+        <div
+          className=" border  rounded-2xl p-6 h-fit"
+          style={{
+            background: "var(--bg-card)",
+            borderColor: "var(--border-color)",
+          }}
+        >
+          <h2
+            className="text-xl font-bold  mb-6"
+            style={{ color: "var(--text-primary)" }}
+          >
             Order Summary
           </h2>
 
           <div className="flex justify-between mb-3">
-            <span className="text-gray-500">Items ({totalQuantity})</span>
-            <span className="font-semibold text-gray-800">{totalQuantity}</span>
+            <span style={{ color: "var(--text-secondary)" }}>
+              Items ({totalQuantity})
+            </span>
+            <span
+              className="font-semibold "
+              style={{ color: "var(--text-primary)" }}
+            >
+              {totalQuantity}
+            </span>
           </div>
 
-          <div className="flex justify-between mb-6 border-t border-gray-100 pt-4">
-            <span className="text-gray-500">Total</span>
+          <div
+            className="flex justify-between mb-6 border-t  pt-4"
+            style={{
+              borderColor: "var(--border-color)",
+            }}
+          >
+            <span style={{ color: "var(--text-secondary)" }}>Total</span>
             <span className="text-2xl font-bold text-blue-600">
               ${totalPrice.toFixed(2)}
             </span>
@@ -81,14 +116,16 @@ function Cart() {
 
           <Link
             to="/checkout"
-            className="block mx-auto w-[80%] py-4 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95"
+            // className="block mx-auto w-[80%] py-4 text-center bg-blue-600 text-white hover:bg-blue-700  font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95"
+            className="block w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 text-center"
           >
             Checkout
           </Link>
 
           <Link
             to="/"
-            className="block text-center mt-4 text-sm text-gray-400 hover:text-blue-600 transition-colors"
+            className="block text-center mt-4 text-sm hover:text-blue-600 transition-colors"
+            style={{ color: "var(--text-secondary)" }}
           >
             Continue Shopping
           </Link>

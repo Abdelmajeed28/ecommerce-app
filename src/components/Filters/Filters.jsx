@@ -8,15 +8,20 @@ function Filters({ selectedCategory, onCategoryChange, sortBy, onSortChange }) {
             <button
               key={category}
               onClick={() => onCategoryChange(category)}
-              className={`
-            px-5 py-2 rounded-full font-medium transition-all duration-300
-            border
-            ${
-              selectedCategory === category
-                ? "bg-blue-600 text-white border-blue-600 shadow-lg scale-105"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600"
-            }
-          `}
+              className={`px-5 py-2 rounded-full font-medium transition-all duration-300 border`}
+              style={
+                selectedCategory === category
+                  ? {
+                      background: "#2563EB",
+                      color: "#ffffff",
+                      borderColor: "#2563EB",
+                    }
+                  : {
+                      background: "var(--bg-card)",
+                      color: "var(--text-primary)",
+                      borderColor: "var(--border-color)",
+                    }
+              }
             >
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
@@ -25,12 +30,12 @@ function Filters({ selectedCategory, onCategoryChange, sortBy, onSortChange }) {
         <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value)}
-          className="
-          px-4 py-2 rounded-lg border border-gray-300
-          bg-white text-gray-700 font-medium
-          focus:outline-none focus:ring-2 focus:ring-blue-500
-          cursor-pointer
-        "
+          style={{
+            background: "var(--bg-card)",
+            color: "var(--text-primary)",
+            borderColor: "var(--border-color)",
+          }}
+          className="px-4 py-2 rounded-lg border font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
         >
           <option value="default">Default</option>
           <option value="price-low">Price: Low to High</option>

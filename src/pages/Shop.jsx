@@ -47,7 +47,10 @@ function Shop() {
       return 0;
     });
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 min-h-screen">
+    <div
+      className="max-w-6xl mx-auto px-4 py-8 min-h-screen"
+      style={{ background: "var(--bg-primary)" }}
+    >
       <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
       <Filters
         selectedCategory={selectedCategory}

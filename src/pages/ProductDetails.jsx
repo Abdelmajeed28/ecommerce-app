@@ -37,7 +37,10 @@ function ProductDetails() {
     dispatch(toggleWishlist(product));
   };
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
+    <div
+      className="max-w-6xl mx-auto px-4 py-12 min-h-screen"
+      style={{ background: "var(--bg-primary)" }}
+    >
       <div className="flex flex-col md:flex-row gap-12">
         {/* Gallary */}
         <div className="flex flex-col gap-4 w-full md:w-1/2">
@@ -51,7 +54,8 @@ function ProductDetails() {
             {/* fav btn */}
             <button
               onClick={handleToggleFavorite}
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
+              style={{ background: "var(--bg-card)" }}
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center  rounded-full shadow-sm hover:shadow-md transition-all active:scale-95 group/btn"
               aria-label="Add to wishlist"
             >
               {/* <Heart className="w-5 h-5 text-slate-400 group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
@@ -90,11 +94,17 @@ function ProductDetails() {
         {/* info*/}
         <div className="w-full md:w-1/2 flex flex-col justify-center gap-5">
           {/* category*/}
-          <p className="text-xs font-bold text-gray-400 tracking-wider uppercase font-sans">
+          <p
+            style={{ color: "var(--text-secondary)" }}
+            className="text-xs font-bold tracking-wider uppercase "
+          >
             {product.category} Edition
           </p>
 
-          <h1 className="text-3xl font-bold text-[#1F2937] leading-snug font-sans">
+          <h1
+            style={{ color: "var(--text-primary)" }}
+            className="text-3xl font-bold leading-snug "
+          >
             {product.title}
           </h1>
 
@@ -112,7 +122,10 @@ function ProductDetails() {
                 />
               ))}
             </div>
-            <span className="text-gray-400 text-sm font-semibold font-sans">
+            <span
+              style={{ color: "var(--text-secondary)" }}
+              className="text-sm font-semibold "
+            >
               ({product.stock * 2 - 8 || 42} reviews)
             </span>
           </div>
@@ -123,12 +136,18 @@ function ProductDetails() {
           </p>
 
           {/* discription */}
-          <p className="text-gray-500 text-sm leading-relaxed font-sans">
+          <p
+            style={{ color: "var(--text-secondary)" }}
+            className="text-sm leading-relaxed "
+          >
             {product.description}
           </p>
 
           {/* stock */}
-          <p className="text-sm font-medium text-gray-500">
+          <p
+            style={{ color: "var(--text-secondary)" }}
+            className="text-sm font-medium"
+          >
             Stock:{" "}
             <span className="text-green-500 font-bold">
               {product.stock} available
@@ -137,24 +156,38 @@ function ProductDetails() {
 
           {/* quantity */}
           <div className="flex items-center gap-4">
-            <span className="text-sm font-semibold text-gray-600 font-sans">
+            <span
+              style={{ color: "var(--text-primary)" }}
+              className="text-sm font-semibold"
+            >
               Quantity:
             </span>
-            <div className="flex items-center gap-3 border border-gray-200 rounded-2xl px-4 py-2 bg-white">
+            <div
+              style={{
+                borderColor: "var(--border-color)",
+                background: "var(--bg-card)",
+              }}
+              className="flex items-center gap-3 border rounded-2xl px-4 py-2"
+            >
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="text-gray-500 hover:text-blue-600 transition-colors active:scale-95"
+                style={{ color: "var(--text-secondary)" }}
+                className="hover:text-blue-600 transition-colors active:scale-95"
               >
                 <Minus size={16} />
               </button>
-              <span className="w-6 text-center font-bold text-[#1F2937]">
+              <span
+                style={{ color: "var(--text-primary)" }}
+                className="w-6 text-center font-bold"
+              >
                 {quantity}
               </span>
               <button
                 onClick={() =>
                   setQuantity((q) => Math.min(product.stock, q + 1))
                 }
-                className="text-gray-500 hover:text-blue-600 transition-colors active:scale-95"
+                style={{ color: "var(--text-secondary)" }}
+                className="hover:text-blue-600 transition-colors active:scale-95"
               >
                 <Plus size={16} />
               </button>
@@ -171,11 +204,11 @@ function ProductDetails() {
             </button>
             <button
               onClick={handleToggleFavorite}
-              className={`w-14 h-14 flex items-center justify-center border rounded-2xl transition-all active:scale-95 group/btn ${
-                isFavorite
-                  ? "border-red-500 bg-red-50"
-                  : "border-gray-200 hover:border-red-400"
-              }`}
+              style={{
+                borderColor: isFavorite ? "#ef4444" : "var(--border-color)",
+                background: isFavorite ? "#fef2f2" : "var(--bg-card)",
+              }}
+              className="w-14 h-14 flex items-center justify-center border rounded-2xl transition-all active:scale-95 group/btn"
             >
               {/* <Heart className="w-5 h-5 text-slate-400 cursor-pointer group-hover/btn:text-red-500 group-hover/btn:fill-red-500 transition-colors duration-300" /> */}
               <Heart

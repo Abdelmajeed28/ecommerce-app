@@ -42,9 +42,21 @@ function Register() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
-        <h2 className="text-3xl font-bold text-center text-gray-800">
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ background: "var(--bg-secondary)" }}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl shadow-xl p-8 space-y-6 border"
+        style={{
+          background: "var(--bg-card)",
+          borderColor: "var(--border-color)",
+        }}
+      >
+        <h2
+          className="text-3xl font-bold text-center"
+          style={{ color: "var(--text-primary)" }}
+        >
           Create Account
         </h2>
 
