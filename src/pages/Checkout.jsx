@@ -65,13 +65,22 @@ function Checkout() {
 
   if (orderSuccess) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div
+        style={{ background: "var(--bg-primary)" }}
+        className="flex justify-center items-center min-h-screen"
+      >
         <div className="flex flex-col items-center gap-6 text-center">
           <CheckCircle className="w-20 h-20 text-green-500" />
-          <h1 className="text-4xl font-extrabold text-gray-800">
+          <h1
+            style={{ color: "var(--text-primary)" }}
+            className="text-4xl font-extrabold"
+          >
             Order Placed!
           </h1>
-          <p className="text-gray-400 text-lg max-w-md">
+          <p
+            style={{ color: "var(--text-secondary)" }}
+            className=" text-lg max-w-md"
+          >
             Thank you{" "}
             <span className="text-blue-600 font-bold">{customerName}</span>!
             Your order has been placed successfully.
@@ -91,9 +100,15 @@ function Checkout() {
 
   if (items.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div
+        style={{ background: "var(--bg-primary)" }}
+        className="flex justify-center items-center min-h-screen"
+      >
         <div className="flex flex-col items-center gap-6">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1
+            style={{ color: "var(--text-primary)" }}
+            className="text-3xl font-bold "
+          >
             Your cart is empty
           </h1>
           <Link
@@ -110,21 +125,41 @@ function Checkout() {
   // main page
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+    <div
+      style={{ background: "var(--bg-primary)" }}
+      className="max-w-6xl mx-auto px-4 py-12 min-h-screen"
+    >
+      <h1
+        style={{ color: "var(--text-primary)" }}
+        className="text-3xl font-bold  mb-8"
+      >
+        Checkout
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 lg:grid-cols-3 gap-8"
       >
-        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">
+        <div
+          style={{
+            background: "var(--bg-card)",
+            borderColor: "var(--border-color)",
+          }}
+          className="lg:col-span-2 border rounded-2xl p-6"
+        >
+          <h2
+            style={{ color: "var(--text-primary)" }}
+            className="text-xl font-bold  mb-6"
+          >
             Shipping Information
           </h2>
 
           <div className="flex flex-col gap-4">
             {/* Full Name */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-600">
+              <label
+                style={{ color: "var(--text-secondary)" }}
+                className="text-sm font-semibold"
+              >
                 Full Name
               </label>
               <input
@@ -137,9 +172,12 @@ function Checkout() {
                     message: "Name must be at least 2 characters",
                   },
                 })}
-                className={`border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                  errors.name ? "border-red-400" : "border-gray-200"
-                }`}
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  borderColor: errors.name ? "#f87171" : "var(--border-color)",
+                }}
+                className="border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all "
               />
               {errors.name && (
                 <p className="text-red-500 text-xs">{errors.name.message}</p>
@@ -148,7 +186,10 @@ function Checkout() {
 
             {/* Email */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-600">
+              <label
+                style={{ color: "var(--text-secondary)" }}
+                className="text-sm font-semibold "
+              >
                 Email Address
               </label>
               <input
@@ -161,9 +202,12 @@ function Checkout() {
                     message: "Enter a valid email address",
                   },
                 })}
-                className={`border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                  errors.email ? "border-red-400" : "border-gray-200"
-                }`}
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  borderColor: errors.name ? "#f87171" : "var(--border-color)",
+                }}
+                className="border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all "
               />
               {errors.email && (
                 <p className="text-red-500 text-xs">{errors.email.message}</p>
@@ -172,7 +216,10 @@ function Checkout() {
 
             {/* Address */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-600">
+              <label
+                style={{ color: "var(--text-secondary)" }}
+                className="text-sm font-semibold "
+              >
                 Address
               </label>
               <input
@@ -185,9 +232,12 @@ function Checkout() {
                     message: "Please enter a more detailed address",
                   },
                 })}
-                className={`border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                  errors.address ? "border-red-400" : "border-gray-200"
-                }`}
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  borderColor: errors.name ? "#f87171" : "var(--border-color)",
+                }}
+                className="border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all "
               />
               {errors.address && (
                 <p className="text-red-500 text-xs">{errors.address.message}</p>
@@ -196,7 +246,10 @@ function Checkout() {
 
             {/* City */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-600">
+              <label
+                style={{ color: "var(--text-secondary)" }}
+                className="text-sm font-semibold "
+              >
                 City
               </label>
               <input
@@ -209,9 +262,12 @@ function Checkout() {
                     message: "City must be at least 2 characters",
                   },
                 })}
-                className={`border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                  errors.city ? "border-red-400" : "border-gray-200"
-                }`}
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  borderColor: errors.name ? "#f87171" : "var(--border-color)",
+                }}
+                className="border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all "
               />
               {errors.city && (
                 <p className="text-red-500 text-xs">{errors.city.message}</p>
@@ -221,59 +277,81 @@ function Checkout() {
         </div>
 
         {/* the order*/}
-        <div className="flex flex-col gap-4">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Order Summary
-            </h2>
+        <div
+          style={{
+            background: "var(--bg-card)",
+            borderColor: "var(--border-color)",
+          }}
+          // className="flex flex-col gap-4"
+          className="border rounded-2xl p-6 h-fit"
+        >
+          {/* <div className="bg-white border border-gray-100 rounded-2xl p-6"> */}
+          <h2
+            style={{ color: "var(--text-primary)" }}
+            className="text-xl font-bold  mb-4"
+          >
+            Order Summary
+          </h2>
 
-            {/* products */}
-            <div className="flex flex-col gap-3 mb-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex items-center gap-3">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-12 h-12 rounded-xl object-cover shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
-                      {item.title}
-                    </p>
-                    <p className="text-xs text-gray-400">x{item.quantity}</p>
-                  </div>
-                  <p className="text-sm font-bold text-blue-600 shrink-0">
-                    ${(item.price * item.quantity).toFixed(2)}
+          {/* products */}
+          <div className="flex flex-col gap-3 mb-4">
+            {items.map((item) => (
+              <div key={item.id} className="flex items-center gap-3">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-12 h-12 rounded-xl object-cover shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <p
+                    style={{ color: "var(--text-primary)" }}
+                    className="text-sm font-semibold  truncate"
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    style={{ color: "var(--text-secondary)" }}
+                    className="text-xs "
+                  >
+                    x{item.quantity}
                   </p>
                 </div>
-              ))}
-            </div>
-
-            {/* total price */}
-            <div className="border-t border-gray-100 pt-4 flex justify-between items-center mb-6">
-              <span className="text-gray-500">Total</span>
-              <span className="text-2xl font-bold text-blue-600">
-                ${totalPrice.toFixed(2)}
-              </span>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="cursor-pointer w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 flex items-center justify-center gap-2"
-            >
-              <ShoppingBag size={20} />
-              {isLoading ? "Placing Order..." : "Confirm Order"}
-            </button>
-
-            <Link
-              to="/cart"
-              className="block text-center mt-4 text-sm text-gray-400 hover:text-blue-600 transition-colors"
-            >
-              Back to Cart
-            </Link>
+                <p className="text-sm font-bold text-blue-600 shrink-0">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </p>
+              </div>
+            ))}
           </div>
+
+          {/* total price */}
+          <div
+            style={{ borderColor: "var(--border-color)" }}
+            className="border-t  pt-4 flex justify-between items-center mb-6"
+          >
+            <span style={{ color: "var(--text-secondary)" }}>Total</span>
+            <span className="text-2xl font-bold text-blue-600">
+              ${totalPrice.toFixed(2)}
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="cursor-pointer w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
+          >
+            <ShoppingBag size={20} />
+            {isLoading ? "Placing Order..." : "Confirm Order"}
+          </button>
+
+          <Link
+            to="/cart"
+            style={{ color: "var(--text-secondary)" }}
+            className="block text-center mt-4 text-sm  hover:text-blue-600 transition-colors"
+          >
+            Back to Cart
+          </Link>
         </div>
+        {/* </div> */}
       </form>
     </div>
   );

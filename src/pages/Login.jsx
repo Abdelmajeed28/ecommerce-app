@@ -39,13 +39,28 @@ function Login() {
     }
   };
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-gray-50 to-gray-100 px-4">
+    <div
+      style={{ background: "var(--bg-secondary)" }}
+      className="min-h-screen flex items-center justify-center px-4"
+    >
       {/* كارت الفورم */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+      <div
+        className="w-full max-w-md rounded-2xl shadow-xl p-8 space-y-6 border"
+        style={{
+          background: "var(--bg-card)",
+          borderColor: "var(--border-color)",
+          color: "var(--text-primary)",
+        }}
+      >
         {/* العنوان */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-800">Welcome Back</h2>
-          <p className="text-gray-500 mt-2">
+          <h2
+            style={{ color: "var(--text-primary)" }}
+            className="text-3xl font-bold "
+          >
+            Welcome Back
+          </h2>
+          <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
             Please enter your details to sign in
           </p>
         </div>

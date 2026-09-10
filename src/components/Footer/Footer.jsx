@@ -2,53 +2,86 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-400 mt-auto">
+    <footer
+      className="  mt-auto"
+      style={{
+        background: "var(--bg-secondary)",
+        borderTop: "1px solid var(--border-color)",
+      }}
+    >
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand */}
         <div>
-          <h3 className="text-white font-bold text-lg mb-2">MyStore</h3>
-          <p className="text-sm">Your one-stop shop for everything you need.</p>
+          <h3
+            className=" font-bold text-lg mb-2"
+            style={{
+              color: "var(--text-primary)",
+            }}
+          >
+            MyStore
+          </h3>
+          <p style={{ color: "var(--text-secondary)" }} className="text-sm">
+            Your one-stop shop for everything you need.
+          </p>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h4 className="text-white font-semibold mb-3">Quick Links</h4>
+          <h4
+            className=" font-semibold mb-3"
+            style={{
+              color: "var(--text-primary)",
+            }}
+          >
+            Quick Links
+          </h4>
           <ul className="space-y-2 text-sm">
-            <li>
-              <Link to="/" className="hover:text-white transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/shop" className="hover:text-white transition-colors">
-                Shop
-              </Link>
-            </li>
-            <li>
-              <Link to="/cart" className="hover:text-white transition-colors">
-                Cart
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/wishlist"
-                className="hover:text-white transition-colors"
-              >
-                Wishlist
-              </Link>
-            </li>
+            {[
+              { to: "/", label: "Home" },
+              { to: "/shop", label: "Shop" },
+              { to: "/cart", label: "Cart" },
+              { to: "/wishlist", label: "Wishlist" },
+            ].map(({ to, label }) => (
+              <li key={to}>
+                <Link
+                  to={to}
+                  style={{ color: "var(--text-secondary)" }}
+                  className="hover:text-blue-600 transition-colors"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Copy */}
         <div>
-          <h4 className="text-white font-semibold mb-3">Contact</h4>
-          <p className="text-sm">support@mystore.com</p>
+          <h4
+            className=" font-semibold mb-3"
+            style={{
+              color: "var(--text-primary)",
+            }}
+          >
+            Contact
+          </h4>
+          <p style={{ color: "var(--text-secondary)" }} className="text-sm">
+            support@mystore.com
+          </p>
         </div>
       </div>
 
-      <div className="border-t border-gray-800 text-center text-sm py-4">
+      <div
+        style={{
+          borderTop: "1px solid var(--border-color)",
+          color: "var(--text-secondary)",
+        }}
+        className="text-center text-sm py-2"
+      >
         © {new Date().getFullYear()} MyStore. All rights reserved.
+      </div>
+      <div className="text-center text-sm pb-1 text-blue-700 font-bold">
+        Created By Abdelmajeed
       </div>
     </footer>
   );

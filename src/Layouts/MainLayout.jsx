@@ -4,7 +4,12 @@ import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        background: "var(--bg-primary)",
+      }}
+    >
       <Navbar />
       <main className="flex-1">
         <Outlet />
