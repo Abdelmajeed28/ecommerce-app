@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetUsersQuery } from "../features/auth/authApiSlice";
+import { useLoginUserMutation } from "../features/auth/authApiSlice";
 import { useState } from "react";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { data: users, isLoading: isFetchingUsers } = useGetUsersQuery();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
   const [serverError, setServerError] = useState("");
   const {
     register,
@@ -16,26 +16,24 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
     setServerError("");
-    if (!users) {
-      setServerError("Unable to connect to server");
-      return;
-    }
-    const foundUser = users.find(
-      (user) =>
-        user.email === formData.email && user.password === formData.password,
-    );
-    if (foundUser) {
+    try {
+      const result = await loginUser({
+        email: formData.email,
+        password: formData.password,
+      }).unwrap();
       dispatch(
         login({
-          name: foundUser.name || foundUser.email.split("@")[0],
-          email: foundUser.email,
+          name: result.user.name,
+          email: result.user.email,
+          token: result.token,
         }),
       );
       navigate("/");
-    } else {
-      setServerError("Invalid email or password");
+    } catch (err) {
+      // لو الـ Backend رجع error بنعرضه
+      setServerError(err.data?.message || "Invalid email or password");
     }
   };
   return (
@@ -121,11 +119,11 @@ function Login() {
           </div>
 
           <button
-            disabled={isFetchingUsers}
+            disabled={isLoading}
             type="submit"
             className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:shadow-indigo-300 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95"
           >
-            {isFetchingUsers ? "Loading Users..." : "Sign In"}
+            {isLoading ? "Loading Users..." : "Sign In"}
           </button>
         </form>
 

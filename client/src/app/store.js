@@ -18,7 +18,7 @@ const storage = {
 const persistConfig = {
   key: "root",
   storage,
-  wishlist: ["cart", "wishlist", "auth"],
+  whitelist: ["cart", "wishlist", "auth"],
 };
 const rootReducer = combineReducers({
   cart: cartReducer,
