@@ -1,9 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  useGetUsersQuery,
-  useAddUserMutation,
-} from "../features/auth/authApiSlice";
+import { useRegisterUserMutation } from "../features/auth/authApiSlice";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../features/auth/authSlice";
@@ -11,8 +8,7 @@ function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { data: users } = useGetUsersQuery();
-  const [addUser, { isLoading }] = useAddUserMutation();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
   const [serverError, setServerError] = useState("");
   const {
@@ -22,23 +18,28 @@ function Register() {
   } = useForm();
   const onSubmit = async (formData) => {
     setServerError("");
-    const isEmailTaken = users?.some((user) => user.email === formData.email);
-    if (isEmailTaken) {
-      setServerError("Email is already registered!");
-      return;
-    }
     try {
-      const newUser = {
+      // بنبعت البيانات للـ Backend عشان يعمل الـ user ويرجع token
+      const result = await registerUser({
         name: formData.name,
         email: formData.email,
         password: formData.password,
-      };
-      const savedUser = await addUser(newUser).unwrap();
-      dispatch(login({ name: savedUser.name, email: savedUser.email }));
+      }).unwrap();
+
+      // بنحفظ الـ user في الـ Redux مع الـ token
+      dispatch(
+        login({
+          name: result.user.name,
+          email: result.user.email,
+          token: result.token,
+        }),
+      );
+
       navigate("/");
     } catch (err) {
-      console.error("Failed to save user:", err);
-      setServerError("Failed to register. Please try again.");
+      setServerError(
+        err.data?.message || "Registration failed. Please try again.",
+      );
     }
   };
   return (
