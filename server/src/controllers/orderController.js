@@ -1,9 +1,7 @@
 import Order from "../models/Order.js";
 
-// إنشاء أوردر جديد
 const createOrder = async (req, res) => {
   try {
-    // req.body فيه بيانات الأوردر الجاية من الـ Frontend
     const order = await Order.create(req.body);
     res.status(201).json(order);
   } catch (error) {
@@ -11,7 +9,6 @@ const createOrder = async (req, res) => {
   }
 };
 
-// جلب كل الأوردرات
 const getOrders = async (req, res) => {
   try {
     const orders = await Order.find();

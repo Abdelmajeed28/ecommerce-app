@@ -1,10 +1,7 @@
-// استيراد الـ Product model عشان نتعامل مع المنتجات في الـ Database
 import Product from "../models/Product.js";
 
-// جلب كل المنتجات
 const getProducts = async (req, res) => {
   try {
-    // Product.find() بترجع كل الـ documents في الـ products collection
     const products = await Product.find();
     res.json(products);
   } catch (error) {
@@ -12,11 +9,8 @@ const getProducts = async (req, res) => {
   }
 };
 
-// جلب منتج واحد بالـ id
 const getProductById = async (req, res) => {
   try {
-    // req.params.id هو الـ id اللي جاي في الـ URL زي /api/products/123
-    // findById بتدور على الـ document اللي عنده نفس الـ id ده
     const product = await Product.findById(req.params.id);
 
     if (!product) {
