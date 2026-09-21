@@ -6,20 +6,30 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../features/wishlist/wishlistSlice";
+import { showLoginRequiredAlert } from "../../utils/authAlert";
 
 function ProductCard({ product }) {
   const roundedRating = Math.round(product.rating || 4);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const isWishlisted = useSelector((state) =>
     state.wishlist.wishlistItems.some((item) => item.id === product.id),
   );
   const handleAddToCard = (e) => {
     e.stopPropagation();
+    if (!isAuthenticated) {
+      showLoginRequiredAlert(navigate);
+      return;
+    }
     dispatch(addToCart(product));
   };
   const handleToggleWishlist = (e) => {
     e.stopPropagation(); // منع الانتقال لصفحة التفاصيل عند الضغط على زر المفضلة
+    if (!isAuthenticated) {
+      showLoginRequiredAlert(navigate);
+      return;
+    }
     if (isWishlisted) {
       dispatch(removeFromWishlist(product.id));
     } else {

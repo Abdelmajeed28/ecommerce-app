@@ -18,25 +18,16 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Shop />} />
-            <Route path="product/:id" element={<ProductDetails />} />
-            <Route
-              path="shop"
-              element={
-                <div className="p-8 text-center text-2xl">Shop Page 🛍️</div>
-              }
-            />
+
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Shop />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="product/:id" element={<ProductDetails />} />
+
+          <Route element={<ProtectedRoute />}>
             <Route path="cart" element={<Cart />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="checkout" element={<Checkout />} />
-            <Route
-              path="login"
-              element={
-                <div className="p-8 text-center text-2xl">Login Page 🔐</div>
-              }
-            />
           </Route>
         </Route>
       </Routes>
