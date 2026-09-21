@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import MainLayout from "./Layouts/MainLayout";
-import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
@@ -10,6 +9,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import useUserSync from "./hooks/useUserSync";
+import Home from "./pages/Home";
+import Products from "./pages/Products";
 
 function App() {
   useUserSync();
@@ -20,8 +21,8 @@ function App() {
         <Route path="register" element={<Register />} />
 
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Shop />} />
-          <Route path="shop" element={<Shop />} />
+          <Route index element={<Home />} />
+          <Route path="products" element={<Products />} />
           <Route path="product/:id" element={<ProductDetails />} />
 
           <Route element={<ProtectedRoute />}>

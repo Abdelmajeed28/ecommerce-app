@@ -5,10 +5,22 @@ export const productsApiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
   endpoints: (build) => ({
     getProducts: build.query({
-      query: () => "products",
+      // query: () => "products",
+      query: ({ category, search, page, limit, sort } = {}) => {
+        const params = new URLSearchParams();
+        if (category && category !== "all") params.append("category", category);
+        if (search) params.append("search", search);
+        if (page) params.append("page", page);
+        if (limit) params.append("limit", limit);
+        if (sort) params.append("sort", sort);
+        return `products?${params.toString()}`;
+      },
     }),
     getProductById: build.query({
       query: (id) => `products/${id}`,
+    }),
+    getCategories: build.query({
+      query: () => "products/categories",
     }),
     addOrder: build.mutation({
       query: (order) => ({
@@ -17,11 +29,16 @@ export const productsApiSlice = createApi({
         body: order,
       }),
     }),
+    getCategoriesWithImage: build.query({
+      query: () => "products/categories-with-image",
+    }),
   }),
 });
 
 export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
+  useGetCategoriesQuery,
   useAddOrderMutation,
+  useGetCategoriesWithImageQuery,
 } = productsApiSlice;
