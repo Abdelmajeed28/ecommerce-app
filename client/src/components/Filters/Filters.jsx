@@ -1,10 +1,14 @@
+import { useGetCategoriesQuery } from "../../features/products/productsApiSlice";
+
 function Filters({ selectedCategory, onCategoryChange, sortBy, onSortChange }) {
-  const categories = ["all", "electronics", "fashion", "home", "sports"];
+  // const categories = ["all", "electronics", "fashion", "home", "sports"];
+  const { data: categories = [] } = useGetCategoriesQuery(); // ✅ بدل الـ array الثابتة
+  const allCategories = ["all", ...categories];
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between items-center gap-5 py-6">
         <div className="flex flex-wrap justify-center gap-3 py-6">
-          {categories.map((category) => (
+          {allCategories.map((category) => (
             <button
               key={category}
               onClick={() => onCategoryChange(category)}

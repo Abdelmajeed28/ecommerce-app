@@ -78,14 +78,14 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
-            to="/shop"
+            to="/products"
             style={({ isActive }) => ({
               color: isActive ? "#2563EB" : "var(--text-primary)",
               fontWeight: isActive ? "bold" : "normal",
             })}
             className="text-lg transition-colors"
           >
-            Shop
+            Products
           </NavLink>
         </div>
 
@@ -248,7 +248,7 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
-            to="/shop"
+            to="/products"
             onClick={closeMenu}
             style={({ isActive }) => ({
               color: isActive ? "#2563EB" : "var(--text-primary)",
@@ -258,7 +258,7 @@ const Navbar = () => {
             })}
             className="text-lg font-medium"
           >
-            Shop
+            Products
           </NavLink>
           <NavLink
             to="/wishlist"
