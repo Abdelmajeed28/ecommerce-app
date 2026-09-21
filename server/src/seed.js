@@ -2,10 +2,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./models/Product.js";
 
-// تحميل الـ environment variables
 dotenv.config();
 
-// بيانات المنتجات اللي هنرفعها
 const products = [
   {
     title: "Wireless Bluetooth Headphones",
@@ -226,26 +224,21 @@ const products = [
 
 const seedDB = async () => {
   try {
-    // الاتصال بالـ Database
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log("MongoDB Connected ✅");
+    // console.log("MongoDB Connected");
 
-    // مسح كل المنتجات الموجودة عشان منكررش
     await Product.deleteMany({});
-    console.log("Old products deleted ✅");
+    // console.log("Old products deleted");
 
-    // رفع المنتجات الجديدة
     await Product.insertMany(products);
-    console.log("Products seeded successfully ✅");
+    // console.log("Products seeded successfully");
 
-    // إغلاق الاتصال بعد ما خلصنا
     mongoose.connection.close();
-    console.log("Database connection closed ✅");
+    // console.log("Database connection closed");
   } catch (error) {
     console.log("Seed Error:", error);
     mongoose.connection.close();
   }
 };
 
-// تشغيل الـ seed function
 seedDB();

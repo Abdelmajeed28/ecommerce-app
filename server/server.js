@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import productsRouter from "./src/routes/products.js";
 import authRouter from "./src/routes/auth.js";
 import ordersRouter from "./src/routes/orders.js";
-
+import userRouter from "./src/routes/user.js";
 dotenv.config();
 
 const app = express();
@@ -15,6 +15,7 @@ app.use(express.json());
 app.use("/api/products", productsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "API is runnig" });

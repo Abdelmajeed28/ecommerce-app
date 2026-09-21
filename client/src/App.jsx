@@ -9,8 +9,10 @@ import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import useUserSync from "./hooks/useUserSync";
 
 function App() {
+  useUserSync();
   return (
     <>
       <Routes>
