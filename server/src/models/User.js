@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema(
         price: Number,
         image: String,
         quantity: { type: Number, default: 1 },
+        stock: Number,
       },
     ],
     wishlistItems: [

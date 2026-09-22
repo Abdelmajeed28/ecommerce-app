@@ -110,4 +110,26 @@ const getCategoriesWithImage = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-export { getProducts, getProductById, getCategories, getCategoriesWithImage };
+const getRelatedProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const relatedProducts = await Product.find({
+      category: product.category,
+      _id: { $ne: product._id }, // بنستبعد المنتج نفسه من النتيجة
+    }).limit(4);
+
+    res.json(relatedProducts);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export {
+  getProducts,
+  getProductById,
+  getCategories,
+  getCategoriesWithImage,
+  getRelatedProducts,
+};

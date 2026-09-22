@@ -1,21 +1,33 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Star, Heart, ShoppingCart, Minus, Plus } from "lucide-react";
-import { useGetProductByIdQuery } from "../features/products/productsApiSlice";
+import {
+  useGetProductByIdQuery,
+  useGetRelatedProductsQuery,
+} from "../features/products/productsApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
 import { toggleWishlist } from "../features/wishlist/wishlistSlice";
+import { showLoginRequiredAlert } from "../utils/authAlert";
+import ProductGrid from "../components/ProductGrid/ProductGrid";
 
 function ProductDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: product, error, isLoading } = useGetProductByIdQuery(id);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const favoriteItems = useSelector(
     (state) => state.wishlist.wishlistItems || [],
   );
+  const { data: relatedProducts = [] } = useGetRelatedProductsQuery(id, {
+    skip: !product,
+  });
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -29,12 +41,31 @@ function ProductDetails() {
         Something went Wrong
       </h1>
     );
+
   const isFavorite = favoriteItems.some((item) => item.id === product?.id);
 
   const roundedRating = Math.round(product.rating || 4);
+  ///////////////////////
+  const itemInCart = cartItems.find((item) => item.id === product?.id);
+  const cartQty = itemInCart?.quantity || 0;
 
+  const availableStock = Math.max((product.stock || 0) - cartQty, 0);
+  const isOutOfStock = availableStock === 0;
+  ////////////////////////////////////////////
   const handleToggleFavorite = () => {
+    if (!isAuthenticated) {
+      showLoginRequiredAlert(navigate);
+      return;
+    }
     dispatch(toggleWishlist(product));
+  };
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      showLoginRequiredAlert(navigate);
+      return;
+    }
+    if (isOutOfStock) return;
+    dispatch(addToCart({ ...product, quantity }));
   };
   return (
     <div
@@ -51,6 +82,11 @@ function ProductDetails() {
               alt={product.title}
               className="w-full h-full object-cover object-center transition-all duration-500"
             />
+            {isOutOfStock && ( // ✅ جديد: badge فوق الصورة
+              <div className="absolute top-4 left-4 bg-gray-900/80 text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                Out of Stock
+              </div>
+            )}
             {/* fav btn */}
             <button
               onClick={handleToggleFavorite}
@@ -149,9 +185,13 @@ function ProductDetails() {
             className="text-sm font-medium"
           >
             Stock:{" "}
-            <span className="text-green-500 font-bold">
-              {product.stock} available
-            </span>
+            {isOutOfStock ? (
+              <span className="text-red-500 font-bold">Out of stock</span>
+            ) : (
+              <span className="text-green-500 font-bold">
+                {availableStock} available
+              </span>
+            )}
           </p>
 
           {/* quantity */}
@@ -171,6 +211,7 @@ function ProductDetails() {
             >
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={isOutOfStock}
                 style={{ color: "var(--text-secondary)" }}
                 className="hover:text-blue-600 transition-colors active:scale-95"
               >
@@ -184,8 +225,9 @@ function ProductDetails() {
               </span>
               <button
                 onClick={() =>
-                  setQuantity((q) => Math.min(product.stock, q + 1))
+                  setQuantity((q) => Math.min(availableStock, q + 1))
                 }
+                disabled={isOutOfStock}
                 style={{ color: "var(--text-secondary)" }}
                 className="hover:text-blue-600 transition-colors active:scale-95"
               >
@@ -196,11 +238,12 @@ function ProductDetails() {
 
           <div className="flex gap-4 mt-2">
             <button
-              onClick={() => dispatch(addToCart({ ...product, quantity }))}
+              onClick={handleAddToCart}
+              disabled={isOutOfStock}
               className="flex-1 flex items-center justify-center cursor-pointer gap-2 py-4 bg-[#2563EB] hover:bg-blue-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-blue-500/30 transition-all active:scale-95"
             >
               <ShoppingCart size={20} />
-              Add to Cart
+              {isOutOfStock ? "Out Of Stock" : "Add to Cart"}
             </button>
             <button
               onClick={handleToggleFavorite}
@@ -222,6 +265,18 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <div className="mt-16">
+          <h2
+            style={{ color: "var(--text-primary)" }}
+            className="text-2xl font-bold mb-6"
+          >
+            You might also like
+          </h2>
+          <ProductGrid products={relatedProducts} />
+        </div>
+      )}
     </div>
   );
 }

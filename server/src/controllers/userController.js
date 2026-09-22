@@ -10,6 +10,7 @@ export const getUserData = async (req, res) => {
       price: item.price,
       image: item.image,
       quantity: item.quantity,
+      stock: item.stock,
     }));
 
     const wishlistItems = user.wishlistItems.map((item) => ({
@@ -40,6 +41,7 @@ export const updateCart = async (req, res) => {
       price: item.price,
       image: item.image,
       quantity: item.quantity,
+      stock: item.stock,
     }));
 
     const user = await User.findByIdAndUpdate(
