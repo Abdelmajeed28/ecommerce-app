@@ -4,6 +4,7 @@ import {
   getProductById,
   getCategories,
   getCategoriesWithImage,
+  getRelatedProducts,
 } from "../controllers/productController.js";
 
 const router = Router();
@@ -11,6 +12,7 @@ const router = Router();
 router.get("/", getProducts);
 router.get("/categories", getCategories);
 router.get("/categories-with-image", getCategoriesWithImage);
+router.get("/:id/related", getRelatedProducts);
 router.get("/:id", getProductById);
 
 export default router;

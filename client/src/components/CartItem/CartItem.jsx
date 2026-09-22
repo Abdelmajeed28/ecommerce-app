@@ -1,6 +1,7 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 function CartItem({ item, onRemove, onUpdateQuantity }) {
+  const isMaxStock = item.stock != null && item.quantity >= item.stock;
   return (
     <div
       className="border  rounded-2xl p-4 flex gap-4 items-center"
@@ -33,6 +34,11 @@ function CartItem({ item, onRemove, onUpdateQuantity }) {
         <p className="text-blue-600 font-bold text-lg mt-1">
           ${(item.price * item.quantity).toFixed(2)}
         </p>
+        {isMaxStock && ( //  جديد: رسالة توضيحية لما توصل للحد الأقصى
+          <p className="text-xs text-amber-500 font-medium mt-1">
+            Max stock reached
+          </p>
+        )}
       </div>
 
       {/* quantity and deleting */}
@@ -57,6 +63,7 @@ function CartItem({ item, onRemove, onUpdateQuantity }) {
           </span>
           <button
             onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+            disabled={isMaxStock}
             className=" hover:text-blue-600 transition-colors active:scale-95"
             style={{ color: "var(--text-secondary)" }}
           >

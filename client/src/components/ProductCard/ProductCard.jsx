@@ -16,12 +16,18 @@ function ProductCard({ product }) {
   const isWishlisted = useSelector((state) =>
     state.wishlist.wishlistItems.some((item) => item.id === product.id),
   );
+  const cartItems = useSelector((state) => state.cart.items);
+  const itemInCart = cartItems.find((item) => item.id === product.id);
+  const cartQty = itemInCart?.quantity || 0;
+  const availableStock = Math.max((product.stock || 0) - cartQty, 0);
+  const isOutOfStock = availableStock === 0;
   const handleAddToCard = (e) => {
     e.stopPropagation();
     if (!isAuthenticated) {
       showLoginRequiredAlert(navigate);
       return;
     }
+    if (isOutOfStock) return;
     dispatch(addToCart(product));
   };
   const handleToggleWishlist = (e) => {
@@ -54,6 +60,11 @@ function ProductCard({ product }) {
           alt={product.title}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
         />
+        {isOutOfStock && (
+          <div className="absolute top-4 left-4 bg-gray-900/80 text-white text-xs font-bold px-3 py-1.5 rounded-full">
+            Out of Stock
+          </div>
+        )}
         {/* fav icon */}
         <button
           onClick={handleToggleWishlist}
@@ -73,9 +84,10 @@ function ProductCard({ product }) {
         {/* Add to Cart */}
         <button
           onClick={handleAddToCard}
+          disabled={isOutOfStock}
           className="absolute bottom-4 left-1/2 cursor-pointer -translate-x-1/2 w-[90%] py-4 bg-[#2563EB] hover:bg-blue-700 text-white font-bold rounded-2xl text-base shadow-lg shadow-blue-500/30 transition-all active:scale-95 text-center"
         >
-          Add to Cart
+          {isOutOfStock ? "Out of Stock" : "Add to Cart"}
         </button>
       </div>
       {/*product details*/}
@@ -115,10 +127,19 @@ function ProductCard({ product }) {
         >
           {product.category} Edition
         </p>
-
-        <p className="text-[26px] font-bold text-[#2563EB] mt-2 font-sans">
-          ${product.price?.toFixed(2)}
-        </p>
+        <div className="flex items-center justify-between mt-2">
+          <p className="text-[26px] font-bold text-[#2563EB] mt-2 font-sans">
+            ${product.price?.toFixed(2)}
+          </p>
+          {!isOutOfStock && ( // ✅ جديد: عدد الـ stock المتاح
+            <span
+              style={{ color: "var(--text-secondary)" }}
+              className="text-xs font-medium"
+            >
+              {availableStock} left
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
