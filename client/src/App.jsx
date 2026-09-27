@@ -11,8 +11,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import useUserSync from "./hooks/useUserSync";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
+import useAuthCheck from "./hooks/useAuthCheck";
+import Profile from "./pages/Profile";
 
 function App() {
+  useAuthCheck();
   useUserSync();
   return (
     <>
@@ -29,6 +32,7 @@ function App() {
             <Route path="cart" element={<Cart />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="checkout" element={<Checkout />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

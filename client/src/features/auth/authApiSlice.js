@@ -4,11 +4,7 @@ const authApiSlice = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5000/api",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) headers.set("authorization", `Bearer ${token}`);
-      return headers;
-    },
+    credentials: "include",
   }),
 
   endpoints: (build) => ({
@@ -25,6 +21,12 @@ const authApiSlice = createApi({
         method: "POST",
         body: userData,
       }),
+    }),
+    logoutUser: build.mutation({
+      query: () => ({ url: "auth/logout", method: "POST" }),
+    }),
+    getMe: build.query({
+      query: () => "auth/me",
     }),
     getUserData: build.query({
       query: () => "user",
@@ -49,6 +51,8 @@ const authApiSlice = createApi({
 export const {
   useLoginUserMutation,
   useRegisterUserMutation,
+  useLogoutUserMutation,
+  useLazyGetMeQuery,
   useLazyGetUserDataQuery,
   useUpdateCartMutation,
   useUpdateWishlistMutation,

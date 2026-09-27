@@ -15,11 +15,17 @@ function ProtectedRoute() {
   // }, [isAuthenticated]);
 
   // return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, authChecked } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   // const [shouldRedirect, setShouldRedirect] = useState(false);
   const [alertShown, setAlertShown] = useState(false);
-
+  if (!authChecked) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+      </div>
+    );
+  }
   if (!isAuthenticated && !alertShown) {
     setAlertShown(true);
     Swal.fire({

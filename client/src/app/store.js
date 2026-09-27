@@ -1,7 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage/index.js";
-// import { localStorage as storage } from "redux-persist/lib/storage/index.js";
 import { combineReducers } from "@reduxjs/toolkit";
 import cartReducer from "../features/cart/cartSlice";
 import wishlistReducer from "../features/wishlist/wishlistSlice";
@@ -18,7 +16,7 @@ const storage = {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "wishlist", "auth"],
+  whitelist: ["cart", "wishlist"],
 };
 const rootReducer = combineReducers({
   cart: cartReducer,

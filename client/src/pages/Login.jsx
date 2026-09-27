@@ -27,7 +27,6 @@ function Login() {
         login({
           name: result.user.name,
           email: result.user.email,
-          token: result.token,
         }),
       );
       navigate("/");
