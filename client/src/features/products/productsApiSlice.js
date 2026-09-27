@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productsApiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api",
+    credentials: "include",
+  }),
   tagTypes: ["Product"],
   endpoints: (build) => ({
     getProducts: build.query({
@@ -39,6 +42,9 @@ export const productsApiSlice = createApi({
     getRelatedProducts: build.query({
       query: (id) => `products/${id}/related`,
     }),
+    getMyOrders: build.query({
+      query: () => "orders",
+    }),
   }),
 });
 
@@ -49,4 +55,5 @@ export const {
   useAddOrderMutation,
   useGetCategoriesWithImageQuery,
   useGetRelatedProductsQuery,
+  useGetMyOrdersQuery,
 } = productsApiSlice;
