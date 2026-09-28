@@ -45,6 +45,20 @@ const authApiSlice = createApi({
         body: { wishlistItems },
       }),
     }),
+    forgotPassword: build.mutation({
+      query: (email) => ({
+        url: "auth/forgot-password",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+    resetPassword: build.mutation({
+      query: ({ token, password }) => ({
+        url: `auth/reset-password/${token}`,
+        method: "POST",
+        body: { password },
+      }),
+    }),
   }),
 });
 
@@ -56,5 +70,7 @@ export const {
   useLazyGetUserDataQuery,
   useUpdateCartMutation,
   useUpdateWishlistMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = authApiSlice;
 export default authApiSlice;

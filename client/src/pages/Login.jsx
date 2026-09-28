@@ -116,7 +116,14 @@ function Login() {
             />
             <p className="text-red-600">{errors.password?.message}</p>
           </div>
-
+          <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-indigo-600 font-semibold hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
           <button
             disabled={isLoading}
             type="submit"
