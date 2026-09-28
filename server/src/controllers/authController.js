@@ -1,6 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import { sendResetPasswordEmail } from "../utils/sendEmail.js";
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -81,4 +83,69 @@ const getMe = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-export { register, login, logout, getMe };
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    const genericMessage = {
+      message:
+        "If an account exists with this email, you will receive a password reset link.",
+    };
+
+    if (!user) {
+      return res.json(genericMessage);
+    }
+
+    const rawToken = crypto.randomBytes(32).toString("hex");
+
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(rawToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15 دقيقة من دلوقتي
+    await user.save();
+
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${rawToken}`; //  التوكن الخام هو اللي بيتبعت في اللينك
+
+    await sendResetPasswordEmail(user.email, resetUrl);
+
+    res.json(genericMessage);
+  } catch (error) {
+    console.error("forgotPassword", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired reset link" });
+    }
+
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("resetPassword", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export { register, login, logout, getMe, forgotPassword, resetPassword };
