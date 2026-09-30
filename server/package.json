@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=18.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -22,7 +25,8 @@
     "express-rate-limit": "^8.7.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.10.0",
-    "resend": "^6.30.0"
+    "resend": "^6.30.0",
+    "stripe": "^22.6.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

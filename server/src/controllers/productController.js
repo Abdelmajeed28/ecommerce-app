@@ -101,7 +101,7 @@ const getCategoriesWithImage = async (req, res) => {
     // بنجيب أول منتج من كل فئة عشان ناخد صورته
     const categoriesWithImage = await Promise.all(
       categories.map(async (category) => {
-        const product = await Product.findOne({ category });
+        const product = await Product.findOne({ category }).skip(1);
         return { name: category, image: product?.image || "" };
       }),
     );
