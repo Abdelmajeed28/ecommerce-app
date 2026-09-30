@@ -13,7 +13,7 @@ function Home() {
 
   // بنجيب أول 4 منتجات بس عشان السلايدر (limit صغير، مش كل المنتجات)
   const { data: heroData, isLoading: heroLoading } = useGetProductsQuery({
-    page: 1,
+    page: 2,
     limit: 4,
   });
 
@@ -29,7 +29,7 @@ function Home() {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           loop
-          className="w-full h-[400px] md:h-[500px]"
+          className="w-full h-100 md:h-125"
         >
           {heroData.products.map((product) => (
             <SwiperSlide key={product.id}>

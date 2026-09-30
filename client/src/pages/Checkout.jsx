@@ -1,14 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { clearCart } from "../features/cart/cartSlice";
-import { useAddOrderMutation } from "../features/products/productsApiSlice";
-import { ShoppingBag, CheckCircle } from "lucide-react";
+import { useCreateCheckoutSessionMutation } from "../features/products/productsApiSlice";
+import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
 
 function Checkout() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
   // get data from Redux
   const { items, totalPrice, totalQuantity } = useSelector(
@@ -16,13 +15,14 @@ function Checkout() {
   );
 
   // sending order (mutation)
-  const [addOrder, { isLoading }] = useAddOrderMutation();
-
+  const [createCheckoutSession, { isLoading }] =
+    useCreateCheckoutSessionMutation();
+  const [serverError, setServerError] = useState("");
   // state to show success screen after confirm order
-  const [orderSuccess, setOrderSuccess] = useState(false);
+  // const [orderSuccess, setOrderSuccess] = useState(false);
 
   // اسم المستخدم عشان نعرضه في شاشة النجاح
-  const [customerName, setCustomerName] = useState("");
+  // const [customerName, setCustomerName] = useState("");
 
   // React Hook Form Setup
   const {
@@ -32,6 +32,7 @@ function Checkout() {
   } = useForm({
     defaultValues: {
       name: "",
+      phone: "",
       email: "",
       address: "",
       city: "",
@@ -40,61 +41,65 @@ function Checkout() {
 
   // onSubmit Handler
   const onSubmit = async (formData) => {
-    setCustomerName(formData.name);
+    setServerError(formData.name);
 
-    const order = {
+    const orderData = {
       items,
       totalPrice,
       totalQuantity,
       shippingInfo: formData,
-      date: new Date().toISOString(),
-      status: "pending",
+      // date: new Date().toISOString(),
+      // status: "pending",
     };
 
     try {
       // send order to db.json
-      await addOrder(order).unwrap();
-      dispatch(clearCart());
-      setOrderSuccess(true);
+      // await addOrder(order).unwrap();
+      // dispatch(clearCart());
+      // setOrderSuccess(true);
+      const result = await createCheckoutSession(orderData).unwrap();
+      window.location.assign(result.url);
     } catch (err) {
-      console.error("Order failed:", err);
+      setServerError(
+        err.data?.message || "Something went wrong. Please try again.",
+      );
     }
   };
 
   // success screen
 
-  if (orderSuccess) {
-    return (
-      <div
-        style={{ background: "var(--bg-primary)" }}
-        className="flex justify-center items-center min-h-screen"
-      >
-        <div className="flex flex-col items-center gap-6 text-center">
-          <CheckCircle className="w-20 h-20 text-green-500" />
-          <h1
-            style={{ color: "var(--text-primary)" }}
-            className="text-4xl font-extrabold"
-          >
-            Order Placed!
-          </h1>
-          <p
-            style={{ color: "var(--text-secondary)" }}
-            className=" text-lg max-w-md"
-          >
-            Thank you{" "}
-            <span className="text-blue-600 font-bold">{customerName}</span>!
-            Your order has been placed successfully.
-          </p>
-          <button
-            onClick={() => navigate("/")}
-            className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-2xl transition-all active:scale-95"
-          >
-            Continue Shopping
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // if (orderSuccess) {
+  //   return (
+  //     <div
+  //       style={{ background: "var(--bg-primary)" }}
+  //       className="flex justify-center items-center min-h-screen"
+  //     >
+  //       <div className="flex flex-col items-center gap-6 text-center">
+  //         <CheckCircle className="w-20 h-20 text-green-500" />
+  //         <h1
+  //           style={{ color: "var(--text-primary)" }}
+  //           className="text-4xl font-extrabold"
+  //         >
+  //           Order Placed!
+  //         </h1>
+  //         <p
+  //           style={{ color: "var(--text-secondary)" }}
+  //           className=" text-lg max-w-md"
+  //         >
+  //           Thank you{" "}
+  //           <span className="text-blue-600 font-bold">{customerName}</span>!
+  //           Your order has been placed successfully.
+  //         </p>
+  //         <button
+  //           onClick={() => navigate("/")}
+  //           className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-2xl transition-all active:scale-95"
+  //         >
+  //           Continue Shopping
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // if cart empty
 
@@ -135,6 +140,11 @@ function Checkout() {
       >
         Checkout
       </h1>
+      {serverError && (
+        <div className="mb-6 p-3 bg-red-100 border border-red-300 text-red-700 text-sm rounded-xl text-center">
+          {serverError}
+        </div>
+      )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 lg:grid-cols-3 gap-8"
@@ -183,7 +193,35 @@ function Checkout() {
                 <p className="text-red-500 text-xs">{errors.name.message}</p>
               )}
             </div>
-
+            {/*  Phone */}
+            <div className="flex flex-col gap-1">
+              <label
+                style={{ color: "var(--text-secondary)" }}
+                className="text-sm font-semibold"
+              >
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                placeholder="01xxxxxxxxx"
+                {...register("phone", {
+                  required: "Phone number is required",
+                  pattern: {
+                    value: /^[0-9+\s-]{8,15}$/, // بنقبل أرقام ومسافات و+ و- بطول معقول
+                    message: "Enter a valid phone number",
+                  },
+                })}
+                style={{
+                  background: "var(--bg-secondary)",
+                  color: "var(--text-primary)",
+                  borderColor: errors.phone ? "#f87171" : "var(--border-color)",
+                }}
+                className="border rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              />
+              {errors.phone && (
+                <p className="text-red-500 text-xs">{errors.phone.message}</p>
+              )}
+            </div>
             {/* Email */}
             <div className="flex flex-col gap-1">
               <label
@@ -282,10 +320,8 @@ function Checkout() {
             background: "var(--bg-card)",
             borderColor: "var(--border-color)",
           }}
-          // className="flex flex-col gap-4"
           className="border rounded-2xl p-6 h-fit"
         >
-          {/* <div className="bg-white border border-gray-100 rounded-2xl p-6"> */}
           <h2
             style={{ color: "var(--text-primary)" }}
             className="text-xl font-bold  mb-4"
@@ -340,7 +376,7 @@ function Checkout() {
             className="cursor-pointer w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
           >
             <ShoppingBag size={20} />
-            {isLoading ? "Placing Order..." : "Confirm Order"}
+            {isLoading ? "Redirecting to payment..." : "Proceed to Payment"}
           </button>
 
           <Link

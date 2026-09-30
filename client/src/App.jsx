@@ -15,6 +15,8 @@ import useAuthCheck from "./hooks/useAuthCheck";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import OrderSuccess from "./pages/OrderSuccess";
+import OrderCancel from "./pages/OrderCancel";
 
 function App() {
   useAuthCheck();
@@ -31,7 +33,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path="products" element={<Products />} />
           <Route path="product/:id" element={<ProductDetails />} />
-
+          <Route path="order-success" element={<OrderSuccess />} />{" "}
+          {/* ✅ جديد - برة الـ ProtectedRoute، لأن Stripe هو اللي بيوجه هنا مباشرة */}
+          <Route path="order-cancel" element={<OrderCancel />} />{" "}
+          {/* ✅ جديد */}
           <Route element={<ProtectedRoute />}>
             <Route path="cart" element={<Cart />} />
             <Route path="wishlist" element={<Wishlist />} />

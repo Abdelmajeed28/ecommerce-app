@@ -3,6 +3,21 @@ import { useGetMyOrdersQuery } from "../features/products/productsApiSlice";
 import { Link } from "react-router-dom";
 import { Heart, ShoppingCart, Package } from "lucide-react";
 
+const getPaymentBadgeStyle = (paymentStatus) => {
+  switch (paymentStatus) {
+    case "paid":
+      return { bg: "bg-green-100", text: "text-green-700", label: "Paid" };
+    case "failed":
+      return {
+        bg: "bg-red-100",
+        text: "text-red-700",
+        label: "Payment Failed",
+      };
+    default: // unpaid
+      return { bg: "bg-amber-100", text: "text-amber-700", label: "Unpaid" };
+  }
+};
+
 function Profile() {
   const { user } = useSelector((state) => state.auth);
   const { data: orders = [], isLoading } = useGetMyOrdersQuery();
@@ -81,49 +96,62 @@ function Profile() {
         </p>
       ) : (
         <div className="flex flex-col gap-4">
-          {orders.map((order) => (
-            <div
-              key={order._id}
-              style={{
-                background: "var(--bg-card)",
-                borderColor: "var(--border-color)",
-              }}
-              className="border rounded-2xl p-5"
-            >
-              <div className="flex justify-between items-center mb-3">
-                <span
-                  style={{ color: "var(--text-secondary)" }}
-                  className="text-sm"
-                >
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 capitalize">
-                  {order.status}
-                </span>
-              </div>
-              <div className="flex flex-col gap-2 mb-3">
-                {order.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
-                    <span style={{ color: "var(--text-primary)" }}>
-                      {item.title} x{item.quantity}
+          {orders.map((order) => {
+            const paymentBadge = getPaymentBadgeStyle(order.paymentStatus); // ✅ جديد
+
+            return (
+              <div
+                key={order._id}
+                style={{
+                  background: "var(--bg-card)",
+                  borderColor: "var(--border-color)",
+                }}
+                className="border rounded-2xl p-5"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <span
+                    style={{ color: "var(--text-secondary)" }}
+                    className="text-sm"
+                  >
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </span>
+
+                  {/* ✅ جديد: wrapper يجمع الـ badge بتاع الدفع مع badge الشحن جنب بعض */}
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${paymentBadge.bg} ${paymentBadge.text}`}
+                    >
+                      {paymentBadge.label}
                     </span>
-                    <span className="text-blue-600 font-semibold">
-                      ${(item.price * item.quantity).toFixed(2)}
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 capitalize">
+                      {order.status}
                     </span>
                   </div>
-                ))}
+                </div>
+                <div className="flex flex-col gap-2 mb-3">
+                  {order.items.map((item, idx) => (
+                    <div key={idx} className="flex justify-between text-sm">
+                      <span style={{ color: "var(--text-primary)" }}>
+                        {item.title} x{item.quantity}
+                      </span>
+                      <span className="text-blue-600 font-semibold">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div
+                  className="border-t pt-3 flex justify-between font-bold"
+                  style={{ borderColor: "var(--border-color)" }}
+                >
+                  <span style={{ color: "var(--text-primary)" }}>Total</span>
+                  <span className="text-blue-600">
+                    ${order.totalPrice.toFixed(2)}
+                  </span>
+                </div>
               </div>
-              <div
-                className="border-t pt-3 flex justify-between font-bold"
-                style={{ borderColor: "var(--border-color)" }}
-              >
-                <span style={{ color: "var(--text-primary)" }}>Total</span>
-                <span className="text-blue-600">
-                  ${order.totalPrice.toFixed(2)}
-                </span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -24,6 +24,7 @@ const orderSchema = new mongoose.Schema(
     },
     shippingInfo: {
       name: String,
+      phone: String,
       email: String,
       address: String,
       city: String,
@@ -36,6 +37,18 @@ const orderSchema = new mongoose.Schema(
       type: String,
       enum: ["pending", "processing", "shipped", "delivered"],
       default: "pending",
+    },
+    // status بيتحكم فيه الأدمن لاحقاً (لسه بيجهز الطلب، شحنه، وصل)
+    // paymentStatus بيتحكم فيه Stripe وحده عن طريق الـ webhook
+    paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid", "failed"],
+      default: "unpaid",
+    },
+    //  جديد: بنخزن هنا الـ ID بتاع جلسة الدفع في Stripe
+    // ده اللي بيربط بين الطلب في قاعدة بياناتنا والدفع الفعلي عند Stripe
+    stripeSessionId: {
+      type: String,
     },
   },
   {

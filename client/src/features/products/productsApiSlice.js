@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productsApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: import.meta.url
+      ? import.meta.env.VITE_API_URL
+      : "http://localhost:5000/api",
     credentials: "include",
   }),
   tagTypes: ["Product"],
@@ -28,13 +30,12 @@ export const productsApiSlice = createApi({
     getCategories: build.query({
       query: () => "products/categories",
     }),
-    addOrder: build.mutation({
-      query: (order) => ({
-        url: "orders",
+    createCheckoutSession: build.mutation({
+      query: (orderData) => ({
+        url: "orders/create-checkout-session",
         method: "POST",
-        body: order,
+        body: orderData,
       }),
-      invalidatesTags: ["Product"],
     }),
     getCategoriesWithImage: build.query({
       query: () => "products/categories-with-image",
@@ -52,7 +53,7 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useGetCategoriesQuery,
-  useAddOrderMutation,
+  useCreateCheckoutSessionMutation,
   useGetCategoriesWithImageQuery,
   useGetRelatedProductsQuery,
   useGetMyOrdersQuery,
