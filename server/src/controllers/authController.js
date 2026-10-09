@@ -186,7 +186,7 @@ const register = async (req, res) => {
     const token = generateToken(user);
     sendTokenCookie(res, token);
     res.status(201).json({
-      user: { name: user.name, email: user.email },
+      user: { name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -210,7 +210,7 @@ const login = async (req, res) => {
     const token = generateToken(user);
     sendTokenCookie(res, token);
     res.json({
-      user: { name: user.name, email: user.email },
+      user: { name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
@@ -227,7 +227,7 @@ const logout = (req, res) => {
 };
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("name email");
+    const user = await User.findById(req.user.id).select("name email role");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json({ user });
   } catch (error) {
