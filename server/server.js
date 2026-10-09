@@ -6,6 +6,8 @@ import productsRouter from "./src/routes/products.js";
 import authRouter from "./src/routes/auth.js";
 import ordersRouter from "./src/routes/orders.js";
 import userRouter from "./src/routes/user.js";
+import adminRouter from "./src/routes/admin.js";
+import { getPublicSettings } from "./src/controllers/adminController.js";
 import cookieParser from "cookie-parser";
 import { stripeWebhookHandler } from "./src/controllers/orderController.js";
 dotenv.config();
@@ -17,6 +19,8 @@ app.use(
     credentials: true,
   }),
 );
+// Reuse the connection across requests in the same serverless instance.
+// Concurrent requests share the same connection attempt, and failures can be retried.
 let connectionPromise;
 
 const connectDB = async () => {
@@ -56,27 +60,18 @@ app.post(
   express.raw({ type: "application/json" }),
   stripeWebhookHandler,
 );
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use("/api/products", productsRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
+app.get("/api/store-settings", getPublicSettings);
 
 app.get("/", (req, res) => {
   res.json({ message: "API is runnig" });
 });
-//  جديد: بنخزّن حالة الاتصال عشان منكررش الاتصال بقاعدة البيانات في كل استدعاء
-// مهم جدًا في بيئة Serverless لأن كل request ممكن يشغّل نسخة جديدة من الكود
-
-// const PORT = process.env.PORT || 500;
-// mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => {
-//     console.log("MongoDB Connected ... ");
-//     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-//   })
-//   .catch((err) => console.log(err));
 
 //  تعديل: app.listen بيشتغل بس وقت التطوير المحلي (مش على Vercel)
 // على Vercel، الملف بيتصدّر كـ handler والمنصة هي اللي بتستدعيه مباشرة
